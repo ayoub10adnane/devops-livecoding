@@ -16,6 +16,6 @@ jobs:
       - name: Set up JDK 17
         #TODO
 
-     #finally build your app with the latest command
+     #finally build your app with the latest comman
       - name: Build and test with Maven
         run: #TODO
