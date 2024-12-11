@@ -25,8 +25,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Build and test with Maven
+      # Navigate to the `simple-api` directory and build with Maven
       - name: Build and test with Maven
         run: |
-          cd path/to/your/maven-project # Adjust this if `pom.xml` is not in the root directory
+          cd simple-api
           mvn clean verify
