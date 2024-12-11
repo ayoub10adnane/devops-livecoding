@@ -4,15 +4,20 @@ on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
-  build-and-push-docker-image:
+  build-and-push-docker-images:
     runs-on: ubuntu-22.04
 
     steps:
       # Checkout your GitHub code
       - name: Checkout code
         uses: actions/checkout@v2.5.0
+
+      # Debugging: List the directory structure to verify paths
+      - name: List directory contents
+        run: ls -R
 
       # Login to DockerHub
       - name: Login to DockerHub
@@ -22,22 +27,22 @@ jobs:
       - name: Build image and push backend
         uses: docker/build-push-action@v3
         with:
-          context: ./simple-api
+          context: ./simple-api # Path to the backend Dockerfile
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-simple-api:latest
-          push: true
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       # Build and push database image
       - name: Build image and push database
         uses: docker/build-push-action@v3
         with:
-          context: ./database # Replace with the relative path to the database Dockerfile
+          context: ./database # Update this if database Dockerfile is located elsewhere
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-database:latest
-          push: true
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       # Build and push HTTPd image
       - name: Build image and push httpd
         uses: docker/build-push-action@v3
         with:
-          context: ./httpd # Replace with the relative path to the httpd Dockerfile
+          context: ./httpd # Update this to the correct path for the HTTPd Dockerfile
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/tp-devops-httpd:latest
-          push: true
+          push: ${{ github.ref == 'refs/heads/main' }}
