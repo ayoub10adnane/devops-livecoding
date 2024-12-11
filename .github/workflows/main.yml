@@ -10,17 +10,23 @@ jobs:
   test-backend: 
     runs-on: ubuntu-22.04
     steps:
-      # Checkout your GitHub code using actions/checkout@v2.5.0
+      # Checkout your GitHub code
       - name: Checkout code
         uses: actions/checkout@v2.5.0
 
-      # Set up JDK 17 using actions/setup-java@v3
+      # List directory contents for debugging
+      - name: List directory contents
+        run: ls -R
+
+      # Set up JDK 17
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
-          distribution: 'temurin' # You can use 'zulu', 'adopt', 'amazon', etc., if preferred.
+          distribution: 'temurin'
 
-      # Build and test your app with Maven
+      # Build and test with Maven
       - name: Build and test with Maven
-        run: mvn clean verify
+        run: |
+          cd path/to/your/maven-project # Adjust this if `pom.xml` is not in the root directory
+          mvn clean verify
